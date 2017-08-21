@@ -86,14 +86,13 @@ var PLTFRM = {
 
   Retina: {
     init: function() {
-      if (window.devicePixelRatio > 1) {
+      if (window.devicePixelRatio > 1 && Utils.detectIE()) {
         var images  = document.querySelectorAll('img');
         var images_l = images.length;
         for (var i = 0; i < images_l; i++) {
-          var splitedImages = images[i].src.split(".");
-          if(splitedImages[1] == "jpg" || splitedImages[1] == "png") {
-            images[i].src = splitedImages[0]+"@2x."+splitedImages[1];
-            console.log(images[i].src);
+          var splitImages = images[i].src.split(".");
+          if(splitImages[1] === "jpg" || splitImages[1] === "png") {
+            images[i].src = splitImages[0]+"@2x."+splitImages[1];
           }
         }
       }
@@ -124,5 +123,23 @@ var PLTFRM = {
   }
 
 }
+
+var Utils = {
+  detectIE: function() {
+    var ua = window.navigator.userAgent;
+    var trident = ua.indexOf('Trident/');
+    if (trident > 0) {
+      // IE 11 => return version number
+      var rv = ua.indexOf('rv:');
+      return parseInt(ua.substring(rv + 3, ua.indexOf('.', rv)), 10);
+    }
+    var edge = ua.indexOf('Edge/');
+    if (edge > 0) {
+      // Edge (IE 12+) => return version number
+      return parseInt(ua.substring(edge + 5, ua.indexOf('.', edge)), 10);
+    }
+    return false;
+  }
+};
 
 PLTFRM.init()
