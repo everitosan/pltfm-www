@@ -93,6 +93,7 @@ var PLTFRM = {
           var splitedImages = images[i].src.split(".");
           if(splitedImages[1] == "jpg" || splitedImages[1] == "png") {
             images[i].src = splitedImages[0]+"@2x."+splitedImages[1];
+            console.log(images[i].src);
           }
         }
       }
